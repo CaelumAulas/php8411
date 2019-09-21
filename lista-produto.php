@@ -1,6 +1,13 @@
 <?php 
 include('cabecalho.php');
-include('conecta.php'); 
+require_once('conecta.php'); 
+require_once('produto-banco.php');
+
+function cortaDescricao($descricao) {
+    return strlen($descricao) > 200 
+        ? substr($descricao, 0, 200) . '...' 
+        : $descricao;
+}
 ?>
 
 <div class="jumbotron text-center">
@@ -8,7 +15,9 @@ include('conecta.php');
     <p>Compre um e leve 2, só hoje!</p>
 </div>
 
-<?php $resultado = mysqli_query($conexao, 'SELECT * FROM produtos'); ?>
+<?php if(array_key_exists('removido', $_GET) && $_GET['removido'] == true): ?>
+    <p class="alert alert-success">Deu bom deletando o produto hehe!</p>
+<?php endif; ?>
 
 <table class="table table-striped">
     <thead>
@@ -16,16 +25,27 @@ include('conecta.php');
             <th>#ID</th>
             <th>Nome</th>
             <th>Preço</th>
+            <th>Descrição</th>
+            <th>Opções</th>
         </tr>
     </thead>
     <tbody>
-    <?php while($produto = mysqli_fetch_assoc($resultado)): ?>
+    <?php $produtos = listaProdutos($conexao); ?>
+    <?php foreach($produtos as $taLouco):  ?>
         <tr>
-            <td><?= $produto['id'] ?></td>
-            <td><?= $produto['nome'] ?></td>
-            <td><?= $produto['preco'] ?></td>
+            <td><?= $taLouco['id'] ?></td>
+            <td><?= $taLouco['nome'] ?></td>
+            <td><?= $taLouco['preco'] ?></td>
+            <td><?= cortaDescricao($taLouco['descricao']) ?> </td>
+            <td>
+                <form action="remove-produto.php" method="post" class="m-0">
+                    <input type="hidden" name="id" value="<?= $taLouco['id'] ?>" />
+                    <button type="submit" class="btn btn-danger">Deletar</button>
+                </form>
+            </td>
         </tr>
-    <?php endwhile; ?>
+    <?php endforeach; ?>
+
     </tbody>
 </table>
 

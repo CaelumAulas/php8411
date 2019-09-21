@@ -1,13 +1,15 @@
-<?php include('cabecalho.php'); ?>
-<?php include('conecta.php'); ?>
-
 <?php 
-    $nome = $_POST['nome'];
-    $preco = $_POST['preco']; //mysqli_connect foi para o conecta.php
-    $consulta = "INSERT INTO produtos (nome, preco) VALUES ('{$nome}', {$preco})"
-?>
 
-<?php if(mysqli_query($conexao, $consulta)) : ?>
+include('cabecalho.php');
+require_once('conecta.php'); 
+require_once('produto-banco.php'); 
+
+$nome = $_POST['nome'];
+$preco = $_POST['preco'];
+$descricao = $_POST['descricao'];
+?>    
+
+<?php if(insereProduto($conexao, $nome, $preco, $descricao)) : ?>
     <p class="alert alert-success">
         O produto <?= $nome; ?>, <?= $preco ?> foi salvo com sucesso.
     </p>

@@ -13,6 +13,13 @@
         <input type="text" name="preco" class="form-control"  />
     </div>
 
+    <div class="form-group">
+        <label>Descrição: </label>
+        <textarea name="descricao" class="form-control">
+        </textarea>
+    </div>
+
+
     <button type="submit" class="btn btn-primary">Cadastrar</button>
 </form>
 
