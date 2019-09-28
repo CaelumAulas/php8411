@@ -2,12 +2,14 @@
 include('cabecalho.php');
 require_once('conecta.php'); 
 require_once('produto-banco.php');
+require_once('pagina-protegida.php');
 
 function cortaDescricao($descricao) {
     return strlen($descricao) > 200 
         ? substr($descricao, 0, 200) . '...' 
         : $descricao;
 }
+
 ?>
 
 <div class="jumbotron text-center">
@@ -25,6 +27,8 @@ function cortaDescricao($descricao) {
             <th>#ID</th>
             <th>Nome</th>
             <th>Preço</th>
+            <th>Categoria</th>
+            <th>Usado?</th>
             <th>Descrição</th>
             <th>Opções</th>
         </tr>
@@ -36,6 +40,8 @@ function cortaDescricao($descricao) {
             <td><?= $taLouco['id'] ?></td>
             <td><?= $taLouco['nome'] ?></td>
             <td><?= $taLouco['preco'] ?></td>
+            <td><?= $taLouco['categoria'] ?></td>
+            <td><?= $taLouco['usado'] == true ? "Sim" : "Não"; ?></td>
             <td><?= cortaDescricao($taLouco['descricao']) ?> </td>
             <td>
                 <form action="remove-produto.php" method="post" class="m-0">
