@@ -8,10 +8,10 @@ require_once('usuario-sessao.php');
 if(isset($_POST['email']) && isset($_POST['senha']) ){
     $usuario = buscaUsuario($conexao, $_POST['email']);
     
-if(password_verify($_POST['senha'], $usuario['senha'])){
-    $_SESSION['usuario_logado'] = $usuario['email'];
-    header('Location: lista-produto.php');
-}
+    if(password_verify($_POST['senha'], $usuario['senha'])){
+        $_SESSION['usuario_logado'] = $usuario['email'];
+        header('Location: lista-produto.php');
+    }
 
 }
     
