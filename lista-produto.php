@@ -4,11 +4,7 @@ require_once('conecta.php');
 require_once('produto-banco.php');
 require_once('pagina-protegida.php');
 
-function cortaDescricao($descricao) {
-    return strlen($descricao) > 200 
-        ? substr($descricao, 0, 200) . '...' 
-        : $descricao;
-}
+
 
 ?>
 
@@ -35,19 +31,21 @@ function cortaDescricao($descricao) {
     </thead>
     <tbody>
     <?php $produtos = listaProdutos($conexao); ?>
-    <?php foreach($produtos as $taLouco):  ?>
+    <?php foreach($produtos as $p):  ?>
         <tr>
-            <td><?= $taLouco['id'] ?></td>
-            <td><?= $taLouco['nome'] ?></td>
-            <td><?= $taLouco['preco'] ?></td>
-            <td><?= $taLouco['categoria'] ?></td>
-            <td><?= $taLouco['usado'] == true ? "Sim" : "Não"; ?></td>
-            <td><?= cortaDescricao($taLouco['descricao']) ?> </td>
+            <td><?= $p->getId(); ?></td>
+            <td><?= $p->getNome(); ?></td>
+            <td><?= $p->getPreco(); ?></td>
+            <td><?= $p->getCategoria(); ?></td>
+            <td><?= $p->getUsado() == true ? "Sim" : "Não"; ?></td>
+            <td><?= $p->getDescricaoResumida(); ?> </td>
             <td>
                 <form action="remove-produto.php" method="post" class="m-0">
-                    <input type="hidden" name="id" value="<?= $taLouco['id'] ?>" />
-                    <button type="submit" class="btn btn-danger">Deletar</button>
+                    <input type="hidden" name="id" value="<?= $p->getId(); ?>" />
+                    <button type="submit" class="btn btn-sm btn-danger">Deletar</button>
                 </form>
+                <a class="btn btn-sm btn-primary" 
+                   href="produto-formulario.php?id=<?= $p->getId(); ?>">Alterar</a>
             </td>
         </tr>
     <?php endforeach; ?>

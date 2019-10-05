@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 include('cabecalho.php');
 require_once('conecta.php'); 
@@ -12,17 +12,17 @@ $categoria = new Categoria;
 $categoria->setId($_POST['categoria_id']);
 
 $produto = new Produto($_POST['nome'], $_POST['preco']);
-
+$produto->setId($_POST['produto_id']);
 $produto->setDescricao($_POST['descricao']);
 $produto->setCategoria($categoria);
 $produto->setUsado($usado);
 
 ?>    
 
-<?php if(insereProduto($conexao, $produto)) : ?>
+<?php if(alteraProduto($conexao, $produto)) : ?>
     <p class="alert alert-success">
         O produto <?= $produto->getNome(); ?>, 
-        <?= $produto->getPreco(); ?> foi salvo com sucesso.
+        <?= $produto->getPreco(); ?> foi alterado com sucesso.
     </p>
 <?php else: ?>
     <p class="alert alert-danger">
