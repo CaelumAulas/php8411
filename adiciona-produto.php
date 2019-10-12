@@ -3,6 +3,8 @@
 include('cabecalho.php');
 require_once('conecta.php'); 
 
+$email = new EnviadorDeEmail();
+
 $usado = array_key_exists('usado', $_POST) == true ? 'true' :  'false';
 
 $categoria = new Categoria;
@@ -17,10 +19,15 @@ $produtoDao = new ProdutoDAO($conexao);
 ?>    
 
 <?php if($produtoDao->salva($produto)) : ?>
-    <p class="alert alert-success">
-        O produto <?= $produto->getNome(); ?>, 
-        <?= $produto->getPreco(); ?> foi salvo com sucesso.
-    </p>
+    <?php 
+        
+    $mensagem = "O produto {$produto->getNome()}, 
+        {$produto->getPreco()} foi salvo com sucesso.";
+        
+        if($email->envia($mensagem)): 
+    ?>
+    <p class="alert alert-success"><?= $mensagem ?></p>
+        <?php endif; ?>
 <?php else: ?>
     <p class="alert alert-danger">
         O produto <?= $produto->getNome(); ?> 

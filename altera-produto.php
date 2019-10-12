@@ -2,7 +2,6 @@
 
 include('cabecalho.php');
 require_once('conecta.php'); 
-require_once('produto-banco.php'); 
 
 $usado = array_key_exists('usado', $_POST) == true ? 'true' :  'false';
 
@@ -15,9 +14,10 @@ $produto->setDescricao($_POST['descricao']);
 $produto->setCategoria($categoria);
 $produto->setUsado($usado);
 
+$produtoDao = new ProdutoDAO($conexao);
 ?>    
 
-<?php if(alteraProduto($conexao, $produto)) : ?>
+<?php if($produtoDao->altera($produto)) : ?>
     <p class="alert alert-success">
         O produto <?= $produto->getNome(); ?>, 
         <?= $produto->getPreco(); ?> foi alterado com sucesso.
