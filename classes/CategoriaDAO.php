@@ -1,8 +1,17 @@
 <?php
 
-function listaCategorias($conexao) {
+class CategoriaDAO
+{
+
+  private $conexao;
+
+  public function __construct($conexao){
+    $this->conexao = $conexao;
+  }
+
+  public function listaTodas() {
     $categorias = array();
-    $resultado = mysqli_query($conexao, "SELECT * FROM categorias");
+    $resultado = mysqli_query($this->conexao, "SELECT * FROM categorias");
     while($categoria = mysqli_fetch_assoc($resultado)){
         $c = new Categoria;
         $c->setId($categoria['id']);
@@ -11,4 +20,5 @@ function listaCategorias($conexao) {
         array_push($categorias, $c);
     }
     return $categorias;
+  }
 }

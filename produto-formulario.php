@@ -1,11 +1,11 @@
 <?php 
 include('cabecalho.php'); 
-require_once('conecta.php');
-require_once('produto-banco.php');
-require_once('categoria-banco.php');
 require_once('pagina-protegida.php');
+require_once('conecta.php');
 
-$categorias = listaCategorias($conexao);
+$categoriaDao = new CategoriaDAO($conexao);
+$categorias = $categoriaDao->listaTodas();
+
 $titulo = "Cadastro";
 $acao = "adiciona-produto.php";
 $categoria = new Categoria;
@@ -13,8 +13,9 @@ $produto = new Produto("", "");
 $produto->setCategoria($categoria);
 
 if(array_key_exists('id', $_GET)){
+    $produtoDao = new ProdutoDAO($conexao);
     $titulo = "Alteração";
-    $produto = buscaProduto($conexao, $_GET['id']);
+    $produto = $produtoDao->buscaPorId($_GET['id']);
     $acao = "altera-produto.php";
 }
 ?>

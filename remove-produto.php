@@ -1,10 +1,12 @@
 <?php
 require_once('conecta.php');
-require_once('produto-banco.php');
+require_once('autoload.php');
+
+$produtoDao = new ProdutoDAO($conexao);
 
 $id = $_POST['id'];
 
-if(removeProduto($conexao, $id)) {
+if($produtoDao->remove($id)) {
     header('Location: lista-produto.php?removido=true');
     die();
 } 

@@ -1,10 +1,9 @@
 <?php 
 include('cabecalho.php');
 require_once('conecta.php'); 
-require_once('produto-banco.php');
 require_once('pagina-protegida.php');
 
-
+$produtoDao = new ProdutoDAO($conexao);
 
 ?>
 
@@ -30,7 +29,7 @@ require_once('pagina-protegida.php');
         </tr>
     </thead>
     <tbody>
-    <?php $produtos = listaProdutos($conexao); ?>
+    <?php $produtos = $produtoDao->listaTodos(); ?>
     <?php foreach($produtos as $p):  ?>
         <tr>
             <td><?= $p->getId(); ?></td>

@@ -3,8 +3,6 @@
 include('cabecalho.php');
 require_once('conecta.php'); 
 require_once('produto-banco.php'); 
-require_once('classes/Produto.php');
-require_once('classes/Categoria.php');
 
 $usado = array_key_exists('usado', $_POST) == true ? 'true' :  'false';
 

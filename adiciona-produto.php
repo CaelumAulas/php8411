@@ -2,9 +2,6 @@
 
 include('cabecalho.php');
 require_once('conecta.php'); 
-require_once('produto-banco.php'); 
-require_once('classes/Produto.php');
-require_once('classes/Categoria.php');
 
 $usado = array_key_exists('usado', $_POST) == true ? 'true' :  'false';
 
@@ -12,14 +9,14 @@ $categoria = new Categoria;
 $categoria->setId($_POST['categoria_id']);
 
 $produto = new Produto($_POST['nome'], $_POST['preco']);
-
 $produto->setDescricao($_POST['descricao']);
 $produto->setCategoria($categoria);
 $produto->setUsado($usado);
 
+$produtoDao = new ProdutoDAO($conexao);
 ?>    
 
-<?php if(insereProduto($conexao, $produto)) : ?>
+<?php if($produtoDao->salva($produto)) : ?>
     <p class="alert alert-success">
         O produto <?= $produto->getNome(); ?>, 
         <?= $produto->getPreco(); ?> foi salvo com sucesso.
